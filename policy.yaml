@@ -50,10 +50,10 @@ spec:
                   name: amq-broker-rhel8
                   namespace: openshift-operators
                 spec:
-                  - channel: 7.10.x
-                    name: amq-broker-rhel8
-                    source: redhat-operators
-                    sourceNamespace: openshift-marketplace
+                  channel: 7.10.x
+                  name: amq-broker-rhel8
+                  source: redhat-operators
+                  sourceNamespace: openshift-marketplace
     - objectDefinition:
         apiVersion: policy.open-cluster-management.io/v1
         kind: ConfigurationPolicy
@@ -74,10 +74,10 @@ spec:
                 metadata:
                   name: amq-streams
                 spec:
-                  - channel: stable
-                    name: amq-streams
-                    source: redhat-operators
-                    sourceNamespace: openshift-marketplace
+                  channel: stable
+                  name: amq-streams
+                  source: redhat-operators
+                  sourceNamespace: openshift-marketplace
     - objectDefinition:
         apiVersion: policy.open-cluster-management.io/v1
         kind: ConfigurationPolicy
@@ -98,10 +98,10 @@ spec:
                 metadata:
                   name: install-redhat-camel-k
                 spec:
-                  - channel: latest
-                    name: red-hat-camel-k
-                    source: redhat-operators
-                    sourceNamespace: openshift-marketplace
+                  channel: latest
+                  name: red-hat-camel-k
+                  source: redhat-operators
+                  sourceNamespace: openshift-marketplace
     - objectDefinition:
         apiVersion: policy.open-cluster-management.io/v1
         kind: ConfigurationPolicy
@@ -122,10 +122,10 @@ spec:
                 metadata:
                   name: install-redhat-camel-k
                 spec:
-                  - channel: 8.2.x
-                    name: datagrid
-                    source: redhat-operators
-                    sourceNamespace: openshift-marketplace
+                  channel: 8.2.x
+                  name: datagrid
+                  source: redhat-operators
+                  sourceNamespace: openshift-marketplace
     - objectDefinition:
         apiVersion: policy.open-cluster-management.io/v1
         kind: ConfigurationPolicy
@@ -146,10 +146,10 @@ spec:
                 metadata:
                   name: install-redhat-camel-k
                 spec:
-                  - channel: latest
-                    name: red-hat-camel-k
-                    source: redhat-operators
-                    sourceNamespace: openshift-marketplace
+                  channel: latest
+                  name: red-hat-camel-k
+                  source: redhat-operators
+                  sourceNamespace: openshift-marketplace
     - objectDefinition:
         apiVersion: policy.open-cluster-management.io/v1
         kind: ConfigurationPolicy
