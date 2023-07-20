@@ -149,7 +149,7 @@ spec:
           object-templates:
             - complianceType: musthave
               objectDefinition:
-                apiVersion: operators.coreos.com/v1alpha1
+                apiVersion: v1
                 kind: Namespace
                 metadata:
                   name: openshift-serverless
