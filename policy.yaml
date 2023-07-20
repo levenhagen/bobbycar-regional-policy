@@ -17,8 +17,8 @@ spec:
           object-templates:
             - complianceType: musthave
               objectDefinition:
-                apiVersion: operators.coreos.com/v1alpha1
                 kind: Namespace
+                apiVersion: v1
                 metadata:
                   name: bobbycar
     #- objectDefinition:
