@@ -1,0 +1,218 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: Policy
+metadata:
+  name: bobbycar-regional-policy
+  annotations:
+    policy.open-cluster-management.io/description: 
+spec:
+  remediationAction: inform
+  disabled: false
+  policy-templates:
+    - objectDefinition:
+        apiVersion: policy.open-cluster-management.io/v1
+        kind: ConfigurationPolicy
+        metadata:
+          name: bobby-car-operator-group
+        spec:
+          severity: low
+          namespaceSelector:
+            include: 
+              - default
+              - openshift-operators
+              - policies
+          object-templates:
+            - complianceType: musthave
+              objectDefinition:
+                apiVersion: operators.coreos.com/v1alpha1
+                kind: OperatorGroup
+                metadata:
+                  name: bobbycar-og
+                spec:
+                  targetNamespaces:
+                    - policies
+    - objectDefinition:
+        apiVersion: policy.open-cluster-management.io/v1
+        kind: ConfigurationPolicy
+        metadata:
+          name: install-amq-broker
+        spec:
+          severity: low
+          namespaceSelector:
+            include: 
+              - default
+              - openshift-operators
+              - policies
+          object-templates:
+            - complianceType: musthave
+              objectDefinition:
+                apiVersion: operators.coreos.com/v1alpha1
+                kind: Subscription
+                metadata:
+                  name: amq-broker-rhel8
+                  namespace: openshift-operators
+                spec:
+                  - channel: 7.10.x
+                    name: amq-broker-rhel8
+                    source: redhat-operators
+                    sourceNamespace: openshift-marketplace
+    - objectDefinition:
+        apiVersion: policy.open-cluster-management.io/v1
+        kind: ConfigurationPolicy
+        metadata:
+          name: install-amq-streams
+        spec:
+          severity: low
+          namespaceSelector:
+            include: 
+              - default
+              - openshift-operators
+              - policies
+          object-templates:
+            - complianceType: musthave
+              objectDefinition:
+                apiVersion: operators.coreos.com/v1alpha1
+                kind: Subscription
+                metadata:
+                  name: amq-streams
+                spec:
+                  - channel: stable
+                    name: amq-streams
+                    source: redhat-operators
+                    sourceNamespace: openshift-marketplace
+    - objectDefinition:
+        apiVersion: policy.open-cluster-management.io/v1
+        kind: ConfigurationPolicy
+        metadata:
+          name: install-camel-k
+        spec:
+          severity: low
+          namespaceSelector:
+            include: 
+              - default
+              - openshift-operators
+              - policies
+          object-templates:
+            - complianceType: musthave
+              objectDefinition:
+                apiVersion: operators.coreos.com/v1alpha1
+                kind: Subscription
+                metadata:
+                  name: install-redhat-camel-k
+                spec:
+                  - channel: latest
+                    name: red-hat-camel-k
+                    source: redhat-operators
+                    sourceNamespace: openshift-marketplace
+    - objectDefinition:
+        apiVersion: policy.open-cluster-management.io/v1
+        kind: ConfigurationPolicy
+        metadata:
+          name: install-datagrid
+        spec:
+          severity: low
+          namespaceSelector:
+            include: 
+              - default
+              - openshift-operators
+              - policies
+          object-templates:
+            - complianceType: musthave
+              objectDefinition:
+                apiVersion: operators.coreos.com/v1alpha1
+                kind: Subscription
+                metadata:
+                  name: install-redhat-camel-k
+                spec:
+                  - channel: 8.2.x
+                    name: datagrid
+                    source: redhat-operators
+                    sourceNamespace: openshift-marketplace
+    - objectDefinition:
+        apiVersion: policy.open-cluster-management.io/v1
+        kind: ConfigurationPolicy
+        metadata:
+          name: install-camel-k
+        spec:
+          severity: low
+          namespaceSelector:
+            include: 
+              - default
+              - openshift-operators
+              - policies
+          object-templates:
+            - complianceType: musthave
+              objectDefinition:
+                apiVersion: operators.coreos.com/v1alpha1
+                kind: Subscription
+                metadata:
+                  name: install-redhat-camel-k
+                spec:
+                  - channel: latest
+                    name: red-hat-camel-k
+                    source: redhat-operators
+                    sourceNamespace: openshift-marketplace
+    - objectDefinition:
+        apiVersion: policy.open-cluster-management.io/v1
+        kind: ConfigurationPolicy
+        metadata:
+          name: install-serverless
+        spec:
+          severity: low
+          namespaceSelector:
+            include: 
+              - default
+              - openshift-operators
+              - policies
+              - openshift-serverless
+          object-templates:
+            - complianceType: musthave
+              objectDefinition:
+                apiVersion: operators.coreos.com/v1alpha1
+                kind: Namespace
+                metadata:
+                  name: openshift-serverless
+            - complianceType: musthave
+              objectDefinition:
+                apiVersion: operators.coreos.com/v1alpha1
+                kind: OperatorGroup
+                metadata:
+                  name: serverless-operators
+                  namespace: openshift-serverless
+                spec: {}
+            - complianceType: musthave
+              objectDefinition:
+                apiVersion: operators.coreos.com/v1alpha1
+                kind: Subscription
+                metadata:
+                  name: serverless-operator
+                  namespace: openshift-serverless
+                spec:
+                  channel: stable
+                  installPlanApproval: Automatic
+                  name: serverless-operator
+                  source: redhat-operators
+                  sourceNamespace: openshift-marketplace
+    
+    
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PlacementBinding
+metadata:
+  name: binding-policy-bobbycar-regional
+placementRef:
+  name: placement-policy-bobbycar-regional
+  kind: Placement
+  apiGroup: apps.open-cluster-management.io
+subjects:
+- name: bobbycar-regional-policy
+  kind: Policy
+  apiGroup: policy.open-cluster-management.io
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: Placement
+metadata:
+  name: placement-policy-bobbycar-regional
+spec:
+  clusterSelector:
+    matchExpressions:
+      - {key: bobbycar, operator: In, values: ["regional"]}
