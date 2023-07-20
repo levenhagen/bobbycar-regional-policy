@@ -2,8 +2,7 @@ apiVersion: policy.open-cluster-management.io/v1
 kind: Policy
 metadata:
   name: bobbycar-regional-policy
-  annotations:
-    policy.open-cluster-management.io/description: 
+  namespace: policies
 spec:
   remediationAction: inform
   disabled: false
@@ -199,20 +198,25 @@ apiVersion: policy.open-cluster-management.io/v1
 kind: PlacementBinding
 metadata:
   name: binding-policy-bobbycar-regional
+  namespace: policies
 placementRef:
-  name: placement-policy-bobbycar-regional
-  kind: Placement
+  name: bobbycar-placement
   apiGroup: apps.open-cluster-management.io
+  kind: PlacementRule
 subjects:
 - name: bobbycar-regional-policy
   kind: Policy
   apiGroup: policy.open-cluster-management.io
 ---
 apiVersion: apps.open-cluster-management.io/v1
-kind: Placement
+kind: PlacementRule
 metadata:
-  name: placement-policy-bobbycar-regional
+  name: bobbycar-regional-placement
 spec:
+  clusterConditions: []
   clusterSelector:
     matchExpressions:
-      - {key: bobbycar, operator: In, values: ["regional"]}
+      - key: bobbycar
+        operator: In
+        values:
+          - regional
