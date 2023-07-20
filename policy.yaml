@@ -11,24 +11,36 @@ spec:
         apiVersion: policy.open-cluster-management.io/v1
         kind: ConfigurationPolicy
         metadata:
-          name: bobby-car-operator-group
+          name: install-bobbycar-namespace
         spec:
           severity: low
-          namespaceSelector:
-            include: 
-              - default
-              - openshift-operators
-              - policies
           object-templates:
             - complianceType: musthave
               objectDefinition:
                 apiVersion: operators.coreos.com/v1alpha1
-                kind: OperatorGroup
+                kind: Namespace
                 metadata:
-                  name: bobbycar-og
-                spec:
-                  targetNamespaces:
-                    - policies
+                  name: bobbycar
+    #- objectDefinition:
+    #    apiVersion: policy.open-cluster-management.io/v1
+    #    kind: ConfigurationPolicy
+    #    metadata:
+    #      name: bobby-car-operator-group
+    #    spec:
+    #      severity: low
+    #      namespaceSelector:
+    #        include: 
+    #          - bobbycar
+    #      object-templates:
+    #        - complianceType: musthave
+    #          objectDefinition:
+    #            apiVersion: operators.coreos.com/v1alpha1
+    #            kind: OperatorGroup
+    #            metadata:
+    #              name: bobbycar-og
+    #            spec:
+    #              targetNamespaces:
+    #                - policies
     - objectDefinition:
         apiVersion: policy.open-cluster-management.io/v1
         kind: ConfigurationPolicy
@@ -38,9 +50,7 @@ spec:
           severity: low
           namespaceSelector:
             include: 
-              - default
-              - openshift-operators
-              - policies
+              - bobbycar
           object-templates:
             - complianceType: musthave
               objectDefinition:
@@ -48,7 +58,7 @@ spec:
                 kind: Subscription
                 metadata:
                   name: amq-broker-rhel8
-                  namespace: openshift-operators
+                  namespace: bobbycar
                 spec:
                   channel: 7.10.x
                   name: amq-broker-rhel8
@@ -63,9 +73,7 @@ spec:
           severity: low
           namespaceSelector:
             include: 
-              - default
-              - openshift-operators
-              - policies
+              - bobbycar
           object-templates:
             - complianceType: musthave
               objectDefinition:
@@ -73,6 +81,7 @@ spec:
                 kind: Subscription
                 metadata:
                   name: amq-streams
+                  namespace: bobbycar
                 spec:
                   channel: stable
                   name: amq-streams
@@ -87,9 +96,7 @@ spec:
           severity: low
           namespaceSelector:
             include: 
-              - default
-              - openshift-operators
-              - policies
+              - bobbycar
           object-templates:
             - complianceType: musthave
               objectDefinition:
@@ -97,6 +104,7 @@ spec:
                 kind: Subscription
                 metadata:
                   name: install-redhat-camel-k
+                  namespace: bobbycar
                 spec:
                   channel: latest
                   name: red-hat-camel-k
@@ -111,43 +119,19 @@ spec:
           severity: low
           namespaceSelector:
             include: 
-              - default
-              - openshift-operators
               - policies
+              - bobbycar
           object-templates:
             - complianceType: musthave
               objectDefinition:
                 apiVersion: operators.coreos.com/v1alpha1
                 kind: Subscription
                 metadata:
-                  name: install-redhat-camel-k
+                  name: install-redhat-datagrid
+                  namespace: bobbycar
                 spec:
                   channel: 8.2.x
                   name: datagrid
-                  source: redhat-operators
-                  sourceNamespace: openshift-marketplace
-    - objectDefinition:
-        apiVersion: policy.open-cluster-management.io/v1
-        kind: ConfigurationPolicy
-        metadata:
-          name: install-camel-k
-        spec:
-          severity: low
-          namespaceSelector:
-            include: 
-              - default
-              - openshift-operators
-              - policies
-          object-templates:
-            - complianceType: musthave
-              objectDefinition:
-                apiVersion: operators.coreos.com/v1alpha1
-                kind: Subscription
-                metadata:
-                  name: install-redhat-camel-k
-                spec:
-                  channel: latest
-                  name: red-hat-camel-k
                   source: redhat-operators
                   sourceNamespace: openshift-marketplace
     - objectDefinition:
@@ -159,7 +143,6 @@ spec:
           severity: low
           namespaceSelector:
             include: 
-              - default
               - openshift-operators
               - policies
               - openshift-serverless
